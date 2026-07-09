@@ -47,6 +47,7 @@ Nhap `exit` de thoat.
 
 - [01 - Chat co ban](src/main/java/com/example/springai/SpringAiApplication.java)
 - [02 - Model config va system prompt](docs/02-model-config-and-system-prompt.md)
+- [03 - Conversation memory](docs/03-conversation-memory.md)
 
 ## Lo trinh hoc Spring AI
 
