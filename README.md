@@ -43,6 +43,11 @@ Nhap `exit` de thoat.
 - `src/main/resources/application.properties`
 - `build.gradle`
 
+## Bai hoc
+
+- [01 - Chat co ban](src/main/java/com/example/springai/SpringAiApplication.java)
+- [02 - Model config va system prompt](docs/02-model-config-and-system-prompt.md)
+
 ## Lo trinh hoc Spring AI
 
 ### 1. Chat co ban
