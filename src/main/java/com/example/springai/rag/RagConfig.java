@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -24,16 +26,26 @@ public class RagConfig {
   private static final Logger logger = LoggerFactory.getLogger(RagConfig.class);
 
   @Bean
-  VectorStore vectorStore(EmbeddingModel embeddingModel) {
+  SimpleVectorStore vectorStore(EmbeddingModel embeddingModel) {
     return SimpleVectorStore.builder(embeddingModel).build();
   }
 
   @Bean
   @ConditionalOnProperty(name = "rag.enabled", havingValue = "true", matchIfMissing = true)
   ApplicationRunner loadKnowledgeBase(
-      VectorStore vectorStore,
+      SimpleVectorStore vectorStore,
       @Value("classpath:rag/spring-ai-notes.md") Resource springAiNotes) {
     return args -> {
+      var vectorStoreFile = Path.of("build", "vector-store", "spring-ai-notes.json")
+          .toAbsolutePath()
+          .normalize();
+
+      if (Files.exists(vectorStoreFile)) {
+        vectorStore.load(vectorStoreFile.toFile());
+        logger.info("Loaded RAG vector store from {}.", vectorStoreFile);
+        return;
+      }
+
       var text = springAiNotes.getContentAsString(StandardCharsets.UTF_8);
       var document = new Document(text, Map.of("source", springAiNotes.getFilename()));
       var splitter = TokenTextSplitter.builder().build();
@@ -41,7 +53,11 @@ public class RagConfig {
 
       vectorStore.add(chunks);
 
+      Files.createDirectories(vectorStoreFile.getParent());
+      vectorStore.save(vectorStoreFile.toFile());
+
       logger.info("Loaded {} RAG document chunk(s) from {}.", chunks.size(), springAiNotes.getFilename());
+      logger.info("Saved RAG vector store to {}.", vectorStoreFile);
     };
   }
 }

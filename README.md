@@ -54,6 +54,7 @@ Nhap `exit` de thoat.
 - [07 - REST API](docs/07-rest-api.md)
 - [08 - React chat UI](docs/08-react-chat-ui.md)
 - [09 - Basic RAG](docs/09-basic-rag.md)
+- [10 - Persist RAG vector store](docs/10-persist-rag-vector-store.md)
 
 ## Lo trinh hoc Spring AI
 
