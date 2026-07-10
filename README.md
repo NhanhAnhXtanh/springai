@@ -51,6 +51,7 @@ Nhap `exit` de thoat.
 - [04 - Tach logic thanh ChatService](docs/04-chat-service.md)
 - [05 - Structured output](docs/05-structured-output.md)
 - [06 - Tool calling](docs/06-tool-calling.md)
+- [07 - REST API](docs/07-rest-api.md)
 
 ## Lo trinh hoc Spring AI
 
