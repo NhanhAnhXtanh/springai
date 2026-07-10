@@ -1,6 +1,7 @@
 package com.example.springai;
 
 import com.example.springai.chat.ChatService;
+import com.example.springai.tools.CalculatorTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
@@ -19,7 +20,7 @@ public class SpringAiApplication {
   }
 
   @Bean
-  ChatClient chatClient(ChatClient.Builder builder) {
+  ChatClient chatClient(ChatClient.Builder builder, CalculatorTools calculatorTools) {
     return builder
         .defaultSystem("You are a helpful assistant for someone learning Spring AI.")
         .defaultAdvisors(MessageChatMemoryAdvisor.builder(
@@ -27,6 +28,7 @@ public class SpringAiApplication {
                     .maxMessages(20)
                     .build())
             .build())
+        .defaultTools(calculatorTools)
         .build();
   }
 
@@ -35,6 +37,7 @@ public class SpringAiApplication {
     return args -> {
       System.out.println("Spring AI chat is ready. Type your question, or type 'exit' to quit.");
       System.out.println("Use '/plan <topic>' to get a structured learning plan.");
+      System.out.println("Try asking: What is 12.5 * 8?");
 
       try (Scanner scanner = new Scanner(System.in)) {
         while (true) {
