@@ -52,6 +52,7 @@ Nhap `exit` de thoat.
 - [05 - Structured output](docs/05-structured-output.md)
 - [06 - Tool calling](docs/06-tool-calling.md)
 - [07 - REST API](docs/07-rest-api.md)
+- [08 - React chat UI](docs/08-react-chat-ui.md)
 
 ## Lo trinh hoc Spring AI
 
