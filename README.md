@@ -49,6 +49,7 @@ Nhap `exit` de thoat.
 - [02 - Model config va system prompt](docs/02-model-config-and-system-prompt.md)
 - [03 - Conversation memory](docs/03-conversation-memory.md)
 - [04 - Tach logic thanh ChatService](docs/04-chat-service.md)
+- [05 - Structured output](docs/05-structured-output.md)
 
 ## Lo trinh hoc Spring AI
 

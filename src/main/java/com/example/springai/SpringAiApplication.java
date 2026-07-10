@@ -34,6 +34,7 @@ public class SpringAiApplication {
   ApplicationRunner chatLoop(ChatService chatService) {
     return args -> {
       System.out.println("Spring AI chat is ready. Type your question, or type 'exit' to quit.");
+      System.out.println("Use '/plan <topic>' to get a structured learning plan.");
 
       try (Scanner scanner = new Scanner(System.in)) {
         while (true) {
@@ -50,6 +51,19 @@ public class SpringAiApplication {
 
           if (input.equalsIgnoreCase("exit")) {
             break;
+          }
+
+          if (input.startsWith("/plan ")) {
+            var topic = input.substring("/plan ".length()).trim();
+            var plan = chatService.createLessonPlan(topic);
+
+            System.out.println();
+            System.out.println("Topic: " + plan.topic());
+            for (int i = 0; i < plan.steps().size(); i++) {
+              System.out.println((i + 1) + ". " + plan.steps().get(i));
+            }
+            System.out.println();
+            continue;
           }
 
           var answer = chatService.chat(input);
