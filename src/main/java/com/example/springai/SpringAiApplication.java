@@ -1,8 +1,8 @@
 package com.example.springai;
 
+import com.example.springai.chat.ChatService;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,8 +13,6 @@ import java.util.Scanner;
 
 @SpringBootApplication
 public class SpringAiApplication {
-
-  private static final String CONVERSATION_ID = "learning-session";
 
   public static void main(String[] args) {
     SpringApplication.run(SpringAiApplication.class, args);
@@ -33,7 +31,7 @@ public class SpringAiApplication {
   }
 
   @Bean
-  ApplicationRunner chatLoop(ChatClient chatClient) {
+  ApplicationRunner chatLoop(ChatService chatService) {
     return args -> {
       System.out.println("Spring AI chat is ready. Type your question, or type 'exit' to quit.");
 
@@ -54,11 +52,7 @@ public class SpringAiApplication {
             break;
           }
 
-          var answer = chatClient.prompt()
-              .user(input)
-              .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, CONVERSATION_ID))
-              .call()
-              .content();
+          var answer = chatService.chat(input);
 
           System.out.println();
           System.out.println(answer);
