@@ -26,4 +26,9 @@ public class ChatController {
   public LessonPlan lessonPlan(@RequestBody LessonPlanRequest request) {
     return this.chatService.createLessonPlan(request.topic());
   }
+
+  @PostMapping("/rag")
+  public ChatResponse rag(@RequestBody ChatRequest request) {
+    return new ChatResponse(this.chatService.askKnowledgeBase(request.message()));
+  }
 }

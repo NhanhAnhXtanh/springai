@@ -53,6 +53,7 @@ Nhap `exit` de thoat.
 - [06 - Tool calling](docs/06-tool-calling.md)
 - [07 - REST API](docs/07-rest-api.md)
 - [08 - React chat UI](docs/08-react-chat-ui.md)
+- [09 - Basic RAG](docs/09-basic-rag.md)
 
 ## Lo trinh hoc Spring AI
 

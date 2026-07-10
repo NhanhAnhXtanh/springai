@@ -109,3 +109,9 @@ Thu tool calling:
 ```text
 What is 12.5 * 8?
 ```
+
+Thu RAG:
+
+```text
+/rag SimpleVectorStore dung de lam gi?
+```

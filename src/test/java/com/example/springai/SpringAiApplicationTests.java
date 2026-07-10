@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(
     properties = {
         "spring.ai.openai.api-key=test-key",
+        "rag.enabled=false",
         "spring.main.web-application-type=none"
     },
     args = "--spring.main.lazy-initialization=true")

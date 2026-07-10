@@ -34,6 +34,7 @@ const starterPrompts = [
   'Giai thich ChatClient trong Spring AI bang vi du ngan gon',
   'What is 12.5 * 8? Explain how you got it.',
   '/plan Spring AI tool calling',
+  '/rag SimpleVectorStore dung de lam gi?',
 ]
 
 function App() {
@@ -76,6 +77,8 @@ function App() {
     try {
       const assistantMessage = message.startsWith('/plan ')
         ? await requestLessonPlan(message.substring('/plan '.length).trim())
+        : message.startsWith('/rag ')
+          ? await requestRag(message.substring('/rag '.length).trim())
         : await requestChat(message)
 
       setMessages((current) => [
@@ -134,6 +137,25 @@ function App() {
     return [`Topic: ${data.topic}`, ...data.steps.map((step, index) => `${index + 1}. ${step}`)].join(
       '\n',
     )
+  }
+
+  async function requestRag(question: string) {
+    if (!question) {
+      throw new Error('Missing question after /rag')
+    }
+
+    const response = await fetch('/api/rag', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: question }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`RAG API returned ${response.status}`)
+    }
+
+    const data = (await response.json()) as ChatResponse
+    return data.answer
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -246,7 +268,7 @@ function App() {
                 }
               }
             }}
-            placeholder="Ask Spring AI, or type /plan Spring AI memory"
+            placeholder="Ask Spring AI, or type /rag What is SimpleVectorStore?"
             rows={3}
           />
           <div className="composer-footer">

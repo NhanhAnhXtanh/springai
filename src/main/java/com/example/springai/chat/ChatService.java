@@ -1,8 +1,10 @@
 package com.example.springai.chat;
 
 import com.example.springai.structured.LessonPlan;
+import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,8 +14,11 @@ public class ChatService {
 
   private final ChatClient chatClient;
 
-  public ChatService(ChatClient chatClient) {
+  private final VectorStore vectorStore;
+
+  public ChatService(ChatClient chatClient, VectorStore vectorStore) {
     this.chatClient = chatClient;
+    this.vectorStore = vectorStore;
   }
 
   public String chat(String message) {
@@ -33,5 +38,14 @@ public class ChatService {
         .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, CONVERSATION_ID))
         .call()
         .entity(LessonPlan.class);
+  }
+
+  public String askKnowledgeBase(String question) {
+    return this.chatClient.prompt()
+        .user(question)
+        .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, CONVERSATION_ID))
+        .advisors(QuestionAnswerAdvisor.builder(this.vectorStore).build())
+        .call()
+        .content();
   }
 }

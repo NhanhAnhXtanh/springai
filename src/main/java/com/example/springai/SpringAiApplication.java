@@ -37,6 +37,7 @@ public class SpringAiApplication {
     return args -> {
       System.out.println("Spring AI chat is ready. Type your question, or type 'exit' to quit.");
       System.out.println("Use '/plan <topic>' to get a structured learning plan.");
+      System.out.println("Use '/rag <question>' to ask the local knowledge base.");
       System.out.println("Try asking: What is 12.5 * 8?");
 
       try (Scanner scanner = new Scanner(System.in)) {
@@ -65,6 +66,16 @@ public class SpringAiApplication {
             for (int i = 0; i < plan.steps().size(); i++) {
               System.out.println((i + 1) + ". " + plan.steps().get(i));
             }
+            System.out.println();
+            continue;
+          }
+
+          if (input.startsWith("/rag ")) {
+            var question = input.substring("/rag ".length()).trim();
+            var answer = chatService.askKnowledgeBase(question);
+
+            System.out.println();
+            System.out.println(answer);
             System.out.println();
             continue;
           }
